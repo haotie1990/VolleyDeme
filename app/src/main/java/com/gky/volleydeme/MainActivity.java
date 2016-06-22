@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar tempDate = Calendar.getInstance(Locale.CHINA);
+                tempDate.set(year, monthOfYear, dayOfMonth);
+                if(mDate.getTimeInMillis() < tempDate.getTimeInMillis()){
+                    Toast.makeText(MainActivity.this, "Invalid Date.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 mDate.set(year, monthOfYear, dayOfMonth);
                 pullData();
             }
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mLoadingDialog.dismiss();
-                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Pull Date Error.", Toast.LENGTH_SHORT).show();
             }
         });
         dataRequest.setTag(this);
