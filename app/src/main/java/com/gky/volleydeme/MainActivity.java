@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mLoadingDialog.show();
         DailyRequest request = createDataRequest(mDate);
         NetUtils.getInstance().addToRequestQueue(request);
+        mDate.setTimeInMillis(System.currentTimeMillis());
     }
 
     private DailyRequest createDataRequest(Calendar date){
