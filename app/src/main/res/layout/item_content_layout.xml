@@ -4,7 +4,7 @@
       android:layout_width="match_parent"
       android:layout_height="@dimen/item_height"
       android:gravity="center_vertical"
-      android:background="@android:color/white">
+      android:background="@drawable/item_press_bg">
 
     <ImageView
         android:background="@drawable/circle_tip_bg"
