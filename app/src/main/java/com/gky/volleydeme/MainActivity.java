@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mDate.get(Calendar.MONTH),
         mDate.get(Calendar.DAY_OF_MONTH));
 
-        mLoadingDialog = new ProgressDialog(this);
+        mLoadingDialog = new ProgressDialog(this, R.style.Progress);
 
         mAdapter = new DataAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
