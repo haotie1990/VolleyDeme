@@ -79,7 +79,7 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else if(viewType == VIEW_TYPE_ITEM){
             String desc = itemData.getDescription(), who = itemData.getWho();
             ItemHolder itemHolder = (ItemHolder) holder;
-            itemHolder.setContent(desc, who);
+            itemHolder.setContent(desc, who, itemData.used);
             itemHolder.setTag(position);
         }
     }
@@ -104,12 +104,14 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onClick(View v) {
         int index = (int)v.getTag();
         ItemResponseData itemData = mDatas.get(index);
+        itemData.used = false;
         String url = itemData.getUrl();
         String desc = itemData.getDescription();
         Intent i = new Intent("com.gky.volleydeme.web");
         i.putExtra("Url", url);
         i.putExtra("Desc", desc);
         mContext.startActivity(i);
+        notifyItemChanged(index);
     }
 
     class ImageHolder extends RecyclerView.ViewHolder{
@@ -152,11 +154,16 @@ public class DataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ButterKnife.bind(this, itemView);
         }
 
-        public void setContent(String desc, String who){
+        public void setContent(String desc, String who, boolean used){
             String content = String.format("%s(%s)", desc, who);
             int first = content.indexOf("("), last = content.indexOf(")");
             SpannableStringBuilder builder = new SpannableStringBuilder(content);
-            builder.setSpan(new ForegroundColorSpan(Color.GRAY), first, last+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if(used) {
+                builder.setSpan(new ForegroundColorSpan(Color.GRAY), first, last + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }else{
+                mContent.setTextColor(Color.GRAY);
+                builder.setSpan(new ForegroundColorSpan(Color.parseColor("#9C27B0")), 0, first, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
             mContent.setText(builder);
         }
 
